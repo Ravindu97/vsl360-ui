@@ -1,4 +1,5 @@
-import { Quote, Star } from "lucide-react";
+import Link from "next/link";
+import { Quote, Star, ArrowRight } from "lucide-react";
 import { TwoTone } from "@/components/TwoTone";
 
 const platforms = [
@@ -48,6 +49,13 @@ export function Testimonials() {
                 </div>
               ))}
             </div>
+
+            <Link
+              href="/testimonials"
+              className="mt-6 inline-flex items-center gap-1.5 font-sans text-sm font-semibold text-tropical transition-colors hover:text-ocean"
+            >
+              Read all reviews <ArrowRight className="h-4 w-4" />
+            </Link>
           </div>
 
           <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:col-span-8">
