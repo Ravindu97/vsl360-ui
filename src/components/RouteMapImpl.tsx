@@ -1,7 +1,7 @@
 "use client";
 
 import "leaflet/dist/leaflet.css";
-import { useMemo } from "react";
+import { useEffect, useMemo, useState } from "react";
 import L from "leaflet";
 import {
   MapContainer,
@@ -13,6 +13,30 @@ import {
 } from "react-leaflet";
 import { CITY_COORDS } from "@/lib/geo";
 import type { RouteStop } from "@/lib/types";
+
+type LatLng = [number, number];
+
+// Fetch a road-following driving route through all stops from the free,
+// keyless OSRM public API. Returns null on failure (caller falls back to lines).
+async function fetchRoadRoute(
+  positions: LatLng[],
+  signal: AbortSignal,
+): Promise<LatLng[] | null> {
+  if (positions.length < 2) return null;
+  const coords = positions.map(([lat, lng]) => `${lng},${lat}`).join(";");
+  const url = `https://router.project-osrm.org/route/v1/driving/${coords}?overview=full&geometries=geojson`;
+  try {
+    const res = await fetch(url, { signal });
+    if (!res.ok) return null;
+    const data = await res.json();
+    const line = data?.routes?.[0]?.geometry?.coordinates;
+    if (!Array.isArray(line)) return null;
+    // GeoJSON is [lng, lat]; Leaflet wants [lat, lng].
+    return line.map((c: [number, number]) => [c[1], c[0]] as LatLng);
+  } catch {
+    return null;
+  }
+}
 
 function numberIcon(n: number, active: boolean) {
   return L.divIcon({
@@ -40,9 +64,26 @@ export default function RouteMapImpl({ stops }: { stops: RouteStop[] }) {
     [stops],
   );
 
-  const positions = points.map((p) => [p.lat, p.lng] as [number, number]);
+  const positions = useMemo(
+    () => points.map((p) => [p.lat, p.lng] as LatLng),
+    [points],
+  );
   const bounds =
     positions.length > 0 ? L.latLngBounds(positions) : undefined;
+
+  // Road geometry following actual roads (OSRM); falls back to straight lines.
+  const [roadPath, setRoadPath] = useState<LatLng[] | null>(null);
+
+  useEffect(() => {
+    if (positions.length < 2) return;
+    const controller = new AbortController();
+    fetchRoadRoute(positions, controller.signal).then((path) => {
+      if (path) setRoadPath(path);
+    });
+    return () => controller.abort();
+  }, [positions]);
+
+  const linePositions = roadPath ?? positions;
 
   return (
     <MapContainer
@@ -59,17 +100,30 @@ export default function RouteMapImpl({ stops }: { stops: RouteStop[] }) {
         maxZoom={19}
       />
 
-      {positions.length > 1 ? (
-        <Polyline
-          positions={positions}
-          pathOptions={{
-            color: "#d18d36",
-            weight: 3.5,
-            opacity: 0.9,
-            lineJoin: "round",
-            lineCap: "round",
-          }}
-        />
+      {linePositions.length > 1 ? (
+        <>
+          {/* Soft casing underneath for an elegant route look */}
+          <Polyline
+            positions={linePositions}
+            pathOptions={{
+              color: "#ffffff",
+              weight: 7,
+              opacity: 0.9,
+              lineJoin: "round",
+              lineCap: "round",
+            }}
+          />
+          <Polyline
+            positions={linePositions}
+            pathOptions={{
+              color: "#d18d36",
+              weight: 3.5,
+              opacity: 0.95,
+              lineJoin: "round",
+              lineCap: "round",
+            }}
+          />
+        </>
       ) : null}
 
       {points.map((p, i) => (
