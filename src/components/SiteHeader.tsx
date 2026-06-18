@@ -12,6 +12,7 @@ const navItems = [
   { href: "/journeys", label: "Journeys" },
   { href: "/planner", label: "Planner" },
   { href: "/stories", label: "Stories" },
+  { href: "/about", label: "About" },
   { href: "/faq", label: "FAQ" },
 ];
 
@@ -77,7 +78,7 @@ export function SiteHeader() {
             </Link>
           </div>
 
-          <nav className="hidden items-center gap-9 lg:flex">
+          <nav className="hidden items-center gap-6 lg:flex xl:gap-8">
             {navItems.map((item) => {
               const active =
                 pathname === item.href || pathname.startsWith(`${item.href}/`);
