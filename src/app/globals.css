@@ -7,12 +7,16 @@
   --tropical: #4e6e5d;
   --sand: #e0d9d1;
   --gold: #d18d36;
-  --cream: #fff8f3;
+  --paper: #ffffff;
+}
+
+html {
+  scroll-behavior: smooth;
 }
 
 html,
 body {
-  background-color: var(--sand);
+  background-color: var(--paper);
   color: var(--ocean);
   -webkit-font-smoothing: antialiased;
 }
@@ -22,32 +26,63 @@ body {
   h2,
   h3,
   h4 {
-    @apply font-serif;
+    @apply font-display tracking-tight;
   }
 }
 
 @layer components {
-  /* App is mobile-first; constrain the canvas and center it on larger screens. */
+  /* Full-width responsive page surface. */
   .app-shell {
-    @apply mx-auto w-full max-w-mobile bg-sand min-h-dvh relative;
+    @apply w-full bg-paper min-h-dvh relative flex flex-col;
+  }
+
+  /* Centered responsive content container. */
+  .container-page {
+    @apply mx-auto w-full max-w-7xl px-5 sm:px-8;
+  }
+
+  .container-narrow {
+    @apply mx-auto w-full max-w-3xl px-5 sm:px-8;
+  }
+
+  .surface-card {
+    @apply rounded-3xl border border-ocean/10 bg-white shadow-card;
+  }
+
+  /* Olanka-style soft tinted section blocks. */
+  .block-ocean {
+    @apply rounded-[2rem] bg-ocean-tint;
+  }
+  .block-tropical {
+    @apply rounded-[2rem] bg-tropical-tint;
+  }
+  .block-gold {
+    @apply rounded-[2rem] bg-gold-tint;
   }
 
   .gold-button {
-    @apply inline-flex items-center justify-center gap-2 rounded-xl bg-gold px-6 py-3.5
-      font-sans text-sm font-semibold tracking-wide text-cream transition-colors
-      hover:bg-gold-dark active:scale-[0.99];
+    @apply inline-flex items-center justify-center gap-2 rounded-full bg-gold px-7 py-3.5
+      font-sans text-sm font-semibold tracking-wide text-cream shadow-soft transition-all
+      hover:bg-gold-dark hover:shadow-card-hover active:scale-[0.99];
   }
 
   .ocean-button {
-    @apply inline-flex items-center justify-center gap-2 rounded-xl bg-ocean px-6 py-3.5
-      font-sans text-sm font-semibold tracking-wide text-cream transition-colors
+    @apply inline-flex items-center justify-center gap-2 rounded-full bg-ocean px-7 py-3.5
+      font-sans text-sm font-semibold tracking-wide text-cream transition-all
       hover:bg-ocean-dark active:scale-[0.99];
   }
 
   .ghost-button {
-    @apply inline-flex items-center justify-center gap-2 rounded-xl border border-ocean/20
-      bg-cream px-6 py-3.5 font-sans text-sm font-semibold tracking-wide text-ocean
-      transition-colors hover:border-ocean/40;
+    @apply inline-flex items-center justify-center gap-2 rounded-full border border-ocean/20
+      bg-white/60 px-7 py-3.5 font-sans text-sm font-semibold tracking-wide text-ocean
+      transition-colors hover:border-ocean/40 hover:bg-white;
+  }
+
+  /* Dark "black" pill used for secondary actions (Watch Intro, Read More). */
+  .ink-button {
+    @apply inline-flex items-center justify-center gap-2 rounded-full bg-ink px-6 py-3
+      font-sans text-sm font-semibold tracking-wide text-white shadow-soft transition-all
+      hover:bg-ocean-dark hover:shadow-card-hover active:scale-[0.99];
   }
 
   .badge-stamp {
@@ -63,11 +98,15 @@ body {
   .field-input {
     @apply w-full rounded-xl border border-ocean/15 bg-cream px-4 py-3 font-sans text-sm
       text-ocean placeholder:text-ocean/40 outline-none transition-colors
-      focus:border-gold;
+      focus:border-gold focus:ring-2 focus:ring-gold/20;
   }
 
   .section-eyebrow {
-    @apply font-sans text-xs font-semibold uppercase tracking-[0.2em] text-gold;
+    @apply font-sans text-xs font-semibold uppercase tracking-[0.25em] text-gold;
+  }
+
+  .card-lift {
+    @apply transition-all duration-300 hover:-translate-y-1 hover:shadow-card-hover;
   }
 }
 

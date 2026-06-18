@@ -33,14 +33,14 @@ export function ExperienceCard({
   return (
     <Link
       href={`/journeys/${slug}`}
-      className="group block overflow-hidden rounded-2xl border border-ocean/10 bg-cream"
+      className="group block overflow-hidden rounded-3xl border border-ocean/10 bg-cream shadow-card card-lift"
     >
       <div className={`relative ${heightClass} w-full`}>
         <Image
           src={heroImage}
           alt={title}
           fill
-          sizes="(max-width: 440px) 100vw, 440px"
+          sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
           className="object-cover transition-transform duration-500 group-hover:scale-105"
         />
         <div className="absolute inset-0 bg-gradient-to-t from-ocean-dark/85 via-ocean-dark/10 to-transparent" />
@@ -54,7 +54,7 @@ export function ExperienceCard({
         </div>
 
         <div className="absolute inset-x-0 bottom-0 p-4 text-cream">
-          <h3 className="font-serif text-xl font-medium leading-tight">{title}</h3>
+          <h3 className="font-display text-xl font-bold leading-tight">{title}</h3>
           <div className="mt-1.5 flex items-center gap-3 font-sans text-xs text-cream/85">
             <span className="inline-flex items-center gap-1">
               <MapPin className="h-3.5 w-3.5" /> {location}

@@ -15,8 +15,8 @@ export function BottomNav() {
   const pathname = usePathname();
 
   return (
-    <nav className="fixed inset-x-0 bottom-0 z-40 mx-auto w-full max-w-mobile border-t border-ocean/10 bg-cream/95 backdrop-blur-md">
-      <ul className="flex items-stretch justify-around px-2 pb-[max(0.5rem,env(safe-area-inset-bottom))] pt-2">
+    <nav className="fixed inset-x-0 bottom-0 z-40 border-t border-ocean/10 bg-cream/95 backdrop-blur-md lg:hidden">
+      <ul className="mx-auto flex max-w-mobile items-stretch justify-around px-2 pb-[max(0.5rem,env(safe-area-inset-bottom))] pt-2">
         {items.map(({ href, label, Icon }) => {
           const active =
             pathname === href || pathname.startsWith(`${href}/`);

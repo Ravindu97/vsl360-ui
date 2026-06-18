@@ -22,14 +22,16 @@ export default async function JourneysPage() {
   }));
 
   return (
-    <div className="px-5 pt-6">
-      <SectionHeading eyebrow="Curated Experiences" title="Journeys" />
-      <p className="mb-4 mt-2 font-sans text-sm leading-relaxed text-ocean/65">
-        Each itinerary is hand-crafted with local experts. All-inclusive pricing,
-        zero hidden fees, with Veg &amp; Jain meals on request.
-      </p>
+    <div className="container-page pt-10 lg:pt-14">
+      <SectionHeading
+        eyebrow="Curated Experiences"
+        title="Journeys"
+        description="Each itinerary is hand-crafted with local experts. All-inclusive pricing, zero hidden fees, with Veg & Jain meals on request."
+      />
 
-      <JourneyExplorer journeys={cards} />
+      <div className="mt-8">
+        <JourneyExplorer journeys={cards} />
+      </div>
     </div>
   );
 }

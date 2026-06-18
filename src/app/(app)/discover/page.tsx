@@ -1,89 +1,78 @@
-import Image from "next/image";
-import Link from "next/link";
-import { ArrowRight, Sparkles } from "lucide-react";
-import { getFeaturedJourneys, getStories } from "@/lib/data";
-import { ExperienceCard } from "@/components/ExperienceCard";
+import { getJourneys, getStories } from "@/lib/data";
 import { StoryCard } from "@/components/StoryCard";
 import { SectionHeading } from "@/components/SectionHeading";
 import { HowItWorksTimeline } from "@/components/HowItWorksTimeline";
+import { HeroBlock } from "@/components/home/HeroBlock";
+import { DestinationsCarousel } from "@/components/home/DestinationsCarousel";
+import { WhyChoose } from "@/components/home/WhyChoose";
+import { StatsBand } from "@/components/home/StatsBand";
+import { Testimonials } from "@/components/home/Testimonials";
+import { VacationTiers } from "@/components/home/VacationTiers";
+import { QuoteCTASection } from "@/components/home/QuoteCTASection";
 
 export const dynamic = "force-dynamic";
 
 export default async function DiscoverPage() {
-  const [journeys, stories] = await Promise.all([
-    getFeaturedJourneys(),
-    getStories(),
-  ]);
+  const [journeys, stories] = await Promise.all([getJourneys(), getStories()]);
+
+  const cards = journeys.map((j) => ({
+    id: j.id,
+    slug: j.slug,
+    title: j.title,
+    location: j.location,
+    durationDays: j.durationDays,
+    heroImage: j.heroImage,
+    badges: j.badges,
+    priceFrom: j.priceFrom,
+    familyFriendly: j.familyFriendly,
+    dietaryOptions: j.dietaryOptions,
+    allInclusive: j.allInclusive,
+  }));
 
   return (
-    <div>
-      <section className="relative h-[560px] w-full overflow-hidden">
-        <Image
-          src="https://images.unsplash.com/photo-1456926631375-92c8ce872def?auto=format&fit=crop&w=1200&q=80"
-          alt="A Sri Lankan leopard at golden hour"
-          fill
-          priority
-          sizes="(max-width: 440px) 100vw, 440px"
-          className="object-cover"
-        />
-        <div className="absolute inset-0 bg-gradient-to-b from-ocean-dark/40 via-ocean-dark/30 to-ocean-dark/90" />
+    <div className="pb-4">
+      <HeroBlock />
 
-        <div className="absolute inset-x-0 bottom-0 p-6 text-cream">
-          <span className="badge-stamp mb-4">
-            <Sparkles className="h-3 w-3 text-gold" /> Curated Travel
-          </span>
-          <h1 className="font-serif text-[42px] font-medium leading-[1.05]">
-            Experience Sri Lanka Completely
-          </h1>
-          <p className="mt-3 max-w-[18rem] font-sans text-sm leading-relaxed text-cream/85">
-            Authentic, story-driven journeys crafted with local destination
-            experts. Warm. Immersive. Unforgettable.
-          </p>
-          <Link href="/quote" className="gold-button mt-5 w-full">
-            Get a Quote <ArrowRight className="h-4 w-4" />
-          </Link>
+      {/* How It Works */}
+      <section className="container-page pt-16 lg:pt-24">
+        <div className="block-tropical p-6 sm:p-10 lg:p-14">
+          <SectionHeading
+            eyebrow="The VSL 360 Way"
+            title="How It Works"
+            centered
+            description="From the first spark of inspiration to a secured booking — guided every step by a local expert."
+          />
+          <div className="mt-10">
+            <HowItWorksTimeline />
+          </div>
         </div>
       </section>
 
-      <section className="px-5 pt-9">
-        <SectionHeading eyebrow="The VSL 360 Way" title="How It Works" />
-        <div className="mt-6">
-          <HowItWorksTimeline />
-        </div>
-      </section>
-
-      <section className="px-5 pt-10">
+      {/* Trending destinations */}
+      <section className="container-page pt-16 lg:pt-24">
         <SectionHeading
           eyebrow="Hand-picked"
-          title="Featured Journeys"
+          title="Trending Journeys"
           action={{ label: "View all", href: "/journeys" }}
         />
-        <div className="mt-5 space-y-5">
-          {journeys.map((j) => (
-            <ExperienceCard
-              key={j.id}
-              slug={j.slug}
-              title={j.title}
-              location={j.location}
-              durationDays={j.durationDays}
-              heroImage={j.heroImage}
-              badges={j.badges}
-              priceFrom={j.priceFrom}
-              familyFriendly={j.familyFriendly}
-              dietaryOptions={j.dietaryOptions}
-              allInclusive={j.allInclusive}
-            />
-          ))}
+        <div className="mt-10">
+          <DestinationsCarousel journeys={cards} />
         </div>
       </section>
 
-      <section className="px-5 pt-10">
+      <WhyChoose />
+      <StatsBand />
+      <VacationTiers />
+      <Testimonials />
+
+      {/* Travel news & trends */}
+      <section className="container-page pt-16 lg:pt-24">
         <SectionHeading
           eyebrow="From the Journal"
-          title="Traveler Stories"
+          title="Travel News & Trends"
           action={{ label: "Read more", href: "/stories" }}
         />
-        <div className="mt-5 space-y-4">
+        <div className="mt-8 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
           {stories.slice(0, 3).map((s) => (
             <StoryCard
               key={s.id}
@@ -94,25 +83,13 @@ export default async function DiscoverPage() {
               heroImage={s.heroImage}
               excerpt={s.excerpt}
               readMins={s.readMins}
+              variant="feature"
             />
           ))}
         </div>
       </section>
 
-      <section className="px-5 pt-10">
-        <div className="rounded-2xl bg-tropical p-6 text-cream">
-          <h2 className="font-serif text-2xl font-medium">
-            Ready to start planning?
-          </h2>
-          <p className="mt-2 font-sans text-sm leading-relaxed text-cream/85">
-            Connect with a local destination expert online, 24/7. Receive three
-            personalised travel quotes, free of charge.
-          </p>
-          <Link href="/quote" className="gold-button mt-4 w-full">
-            Plan My Journey <ArrowRight className="h-4 w-4" />
-          </Link>
-        </div>
-      </section>
+      <QuoteCTASection />
     </div>
   );
 }

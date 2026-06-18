@@ -52,33 +52,38 @@ export function JourneyExplorer({ journeys }: { journeys: JourneyCardData[] }) {
 
   return (
     <div>
-      <div className="no-scrollbar -mx-5 flex gap-2 overflow-x-auto px-5 pb-1">
-        {filters.map(({ key, label, Icon }) => {
-          const on = active.has(key);
-          return (
-            <button
-              key={key}
-              type="button"
-              onClick={() => toggle(key)}
-              aria-pressed={on}
-              className={`inline-flex shrink-0 items-center gap-1.5 rounded-full border px-3.5 py-1.5 font-sans text-xs font-semibold transition-colors ${
-                on
-                  ? "border-gold bg-gold text-cream"
-                  : "border-ocean/15 bg-cream text-ocean/70 hover:border-ocean/30"
-              }`}
-            >
-              <Icon className="h-3.5 w-3.5" /> {label}
-            </button>
-          );
-        })}
+      <div className="sticky top-16 z-20 -mx-5 bg-paper/85 px-5 py-3 backdrop-blur-sm sm:-mx-8 sm:px-8 lg:top-[72px]">
+        <div className="no-scrollbar flex items-center gap-2 overflow-x-auto">
+          <span className="hidden shrink-0 pr-1 font-sans text-xs font-semibold uppercase tracking-wider text-ocean/50 sm:inline">
+            Filter:
+          </span>
+          {filters.map(({ key, label, Icon }) => {
+            const on = active.has(key);
+            return (
+              <button
+                key={key}
+                type="button"
+                onClick={() => toggle(key)}
+                aria-pressed={on}
+                className={`inline-flex shrink-0 items-center gap-1.5 rounded-full border px-4 py-2 font-sans text-xs font-semibold transition-colors ${
+                  on
+                    ? "border-gold bg-gold text-cream"
+                    : "border-ocean/15 bg-cream text-ocean/70 hover:border-ocean/30"
+                }`}
+              >
+                <Icon className="h-3.5 w-3.5" /> {label}
+              </button>
+            );
+          })}
+        </div>
       </div>
 
-      <p className="mt-3 font-sans text-xs text-ocean/55">
+      <p className="mt-4 font-sans text-xs text-ocean/55">
         {filtered.length} {filtered.length === 1 ? "journey" : "journeys"}
         {active.size > 0 ? " match your filters" : " available"}
       </p>
 
-      <div className="mt-4 space-y-5">
+      <div className="mt-5 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
         {filtered.map((j) => (
           <ExperienceCard
             key={j.id}
@@ -94,16 +99,16 @@ export function JourneyExplorer({ journeys }: { journeys: JourneyCardData[] }) {
             allInclusive={j.allInclusive}
           />
         ))}
-
-        {filtered.length === 0 ? (
-          <div className="rounded-2xl border border-dashed border-ocean/20 bg-cream p-8 text-center">
-            <p className="font-serif text-lg text-ocean">No matches</p>
-            <p className="mt-1 font-sans text-sm text-ocean/55">
-              Try removing a filter to see more journeys.
-            </p>
-          </div>
-        ) : null}
       </div>
+
+      {filtered.length === 0 ? (
+        <div className="mt-5 rounded-2xl border border-dashed border-ocean/20 bg-cream p-8 text-center">
+          <p className="font-serif text-lg text-ocean">No matches</p>
+          <p className="mt-1 font-sans text-sm text-ocean/55">
+            Try removing a filter to see more journeys.
+          </p>
+        </div>
+      ) : null}
     </div>
   );
 }

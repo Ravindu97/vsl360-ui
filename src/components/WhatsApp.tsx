@@ -35,18 +35,14 @@ export function WhatsAppFab({
   message?: string;
 }) {
   return (
-    <div className="pointer-events-none fixed inset-x-0 bottom-0 z-30 mx-auto w-full max-w-mobile">
-      <div className="flex justify-end px-4 pb-24">
-        <a
-          href={whatsappLink(message)}
-          target="_blank"
-          rel="noopener noreferrer"
-          aria-label="Chat with us on WhatsApp"
-          className="pointer-events-auto grid h-14 w-14 place-items-center rounded-full bg-[#25D366] text-white shadow-lg shadow-black/15 transition-transform hover:scale-105 active:scale-95"
-        >
-          <WhatsAppGlyph className="h-7 w-7" />
-        </a>
-      </div>
-    </div>
+    <a
+      href={whatsappLink(message)}
+      target="_blank"
+      rel="noopener noreferrer"
+      aria-label="Chat with us on WhatsApp"
+      className="fixed bottom-24 right-4 z-30 grid h-14 w-14 place-items-center rounded-full bg-[#25D366] text-white shadow-card-hover transition-transform hover:scale-105 active:scale-95 lg:bottom-8 lg:right-8 lg:h-16 lg:w-16"
+    >
+      <WhatsAppGlyph className="h-7 w-7 lg:h-8 lg:w-8" />
+    </a>
   );
 }

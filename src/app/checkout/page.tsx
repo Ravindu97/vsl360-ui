@@ -1,4 +1,5 @@
-import { FormHeader } from "@/components/FormHeader";
+import { SiteHeader } from "@/components/SiteHeader";
+import { SiteFooter } from "@/components/SiteFooter";
 import { CheckoutForm } from "@/components/CheckoutForm";
 import { TrustBadges } from "@/components/TrustBadges";
 import { getJourneyBySlug, asTiers } from "@/lib/data";
@@ -41,29 +42,32 @@ export default async function CheckoutPage({
 
   return (
     <div className="app-shell">
-      <FormHeader title="Secure Checkout" />
-      <main className="px-5 pb-16 pt-6">
-        <p className="section-eyebrow mb-1">Almost There</p>
-        <h1 className="font-serif text-3xl font-medium leading-tight text-ocean">
-          Review &amp; Confirm
-        </h1>
-        <p className="mt-2 font-sans text-sm leading-relaxed text-ocean/65">
-          One all-inclusive price &mdash; absolutely no hidden costs.
-        </p>
+      <SiteHeader />
+      <main className="flex-1">
+        <div className="container-narrow pt-10 lg:pt-16">
+          <p className="section-eyebrow mb-2">Almost There</p>
+          <h1 className="text-4xl font-extrabold leading-tight tracking-tight text-ocean sm:text-5xl">
+            Review &amp; Confirm
+          </h1>
+          <p className="mt-3 font-sans text-base leading-relaxed text-ocean/65">
+            One all-inclusive price &mdash; absolutely no hidden costs.
+          </p>
 
-        <div className="mt-5">
-          <TrustBadges />
-        </div>
+          <div className="mt-6">
+            <TrustBadges />
+          </div>
 
-        <div className="mt-7">
-          <CheckoutForm
-            journeySlug={journey?.slug ?? "custom"}
-            journeyTitle={`${title}${tierLabel}`}
-            lineItems={lineItems}
-            total={total}
-          />
+          <div className="mt-8">
+            <CheckoutForm
+              journeySlug={journey?.slug ?? "custom"}
+              journeyTitle={`${title}${tierLabel}`}
+              lineItems={lineItems}
+              total={total}
+            />
+          </div>
         </div>
       </main>
+      <SiteFooter />
     </div>
   );
 }
