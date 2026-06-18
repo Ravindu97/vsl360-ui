@@ -10,7 +10,7 @@ import {
 } from "@/lib/data";
 import { ItineraryTimeline } from "@/components/ItineraryTimeline";
 import { MessageExpert } from "@/components/MessageExpert";
-import { SriLankaMap } from "@/components/SriLankaMap";
+import { RouteMap } from "@/components/RouteMap";
 import { TierComparison } from "@/components/TierComparison";
 import { TrustBadges } from "@/components/TrustBadges";
 import { WhatsAppButton } from "@/components/WhatsApp";
@@ -107,7 +107,7 @@ export default async function JourneyDetailPage({
                 <h2 className="mb-4 font-serif text-2xl font-medium text-ocean sm:text-3xl">
                   Where You&apos;ll Go
                 </h2>
-                <SriLankaMap stops={routeStops} />
+                <RouteMap stops={routeStops} />
               </div>
             ) : null}
 

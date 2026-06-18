@@ -8,7 +8,7 @@ import {
 } from "@/lib/data";
 import { ItineraryTimeline } from "@/components/ItineraryTimeline";
 import { MessageExpert } from "@/components/MessageExpert";
-import { SriLankaMap } from "@/components/SriLankaMap";
+import { RouteMap } from "@/components/RouteMap";
 
 export const dynamic = "force-dynamic";
 
@@ -95,7 +95,7 @@ export default async function PlannerPage() {
               </p>
             </div>
 
-            {routeStops.length > 0 ? <SriLankaMap stops={routeStops} /> : null}
+            {routeStops.length > 0 ? <RouteMap stops={routeStops} /> : null}
 
             <MessageExpert />
 
