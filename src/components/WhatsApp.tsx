@@ -35,14 +35,22 @@ export function WhatsAppFab({
   message?: string;
 }) {
   return (
-    <a
-      href={whatsappLink(message)}
-      target="_blank"
-      rel="noopener noreferrer"
-      aria-label="Chat with us on WhatsApp"
-      className="fixed bottom-24 right-4 z-30 grid h-14 w-14 place-items-center rounded-full bg-[#25D366] text-white shadow-card-hover transition-transform hover:scale-105 active:scale-95 lg:bottom-8 lg:right-8 lg:h-16 lg:w-16"
-    >
-      <WhatsAppGlyph className="h-7 w-7 lg:h-8 lg:w-8" />
-    </a>
+    <div className="fixed bottom-24 right-4 z-40 lg:bottom-8 lg:right-8">
+      <a
+        href={whatsappLink(message)}
+        target="_blank"
+        rel="noopener noreferrer"
+        aria-label="Chat with us on WhatsApp"
+        className="group flex items-center"
+      >
+        <span className="pointer-events-none mr-3 hidden translate-x-2 whitespace-nowrap rounded-full bg-ink px-3.5 py-2 font-sans text-xs font-semibold text-white opacity-0 shadow-soft transition-all duration-300 group-hover:translate-x-0 group-hover:opacity-100 lg:block">
+          Chat with us
+        </span>
+        <span className="relative grid h-14 w-14 place-items-center rounded-full bg-[#25D366] text-white shadow-[0_8px_24px_-6px_rgba(37,211,102,0.6)] transition-transform duration-300 group-hover:scale-105 group-active:scale-95 lg:h-16 lg:w-16">
+          <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-[#25D366] opacity-40 [animation-duration:2.5s] motion-reduce:hidden" />
+          <WhatsAppGlyph className="relative h-7 w-7 lg:h-8 lg:w-8" />
+        </span>
+      </a>
+    </div>
   );
 }

@@ -221,15 +221,15 @@ const journeys = [
     location: "Sigiriya & Kandy, Sri Lanka",
     durationDays: 8,
     heroImage:
-      "https://images.unsplash.com/photo-1588258524675-c61b5d8e5d33?auto=format&fit=crop&w=1200&q=80",
+      "https://images.unsplash.com/photo-1602216056096-3b40cc0c9944?auto=format&fit=crop&w=1200&q=80",
     badges: ["Heritage", "Story-Driven"],
     priceFrom: 2890,
     summary:
       "Climb the Lion Rock at dawn, wander cave temples, and witness the sacred rituals of Kandy in this journey through the island's ancient heart.",
     itinerary: yalaItinerary.slice(0, 8),
     gallery: [
-      "https://images.unsplash.com/photo-1625125512029-d70bf69d8f29?auto=format&fit=crop&w=900&q=80",
-      "https://images.unsplash.com/photo-1554190994-91f4c95e9c92?auto=format&fit=crop&w=900&q=80",
+      "https://images.unsplash.com/photo-1604999333679-b86d54738315?auto=format&fit=crop&w=900&q=80",
+      "https://images.unsplash.com/photo-1518002171953-a080ee817e1f?auto=format&fit=crop&w=900&q=80",
     ],
     featured: false,
     familyFriendly: true,

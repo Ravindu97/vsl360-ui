@@ -2,6 +2,7 @@ import { getJourneys, getStories } from "@/lib/data";
 import { StoryCard } from "@/components/StoryCard";
 import { SectionHeading } from "@/components/SectionHeading";
 import { HowItWorksTimeline } from "@/components/HowItWorksTimeline";
+import { Reveal } from "@/components/Reveal";
 import { HeroBlock } from "@/components/home/HeroBlock";
 import { DestinationsCarousel } from "@/components/home/DestinationsCarousel";
 import { WhyChoose } from "@/components/home/WhyChoose";
@@ -34,7 +35,7 @@ export default async function DiscoverPage() {
       <HeroBlock />
 
       {/* How It Works */}
-      <section className="container-page pt-16 lg:pt-24">
+      <Reveal as="section" className="container-page pt-16 lg:pt-24">
         <div className="block-tropical p-6 sm:p-10 lg:p-14">
           <SectionHeading
             eyebrow="The VSL 360 Way"
@@ -46,27 +47,33 @@ export default async function DiscoverPage() {
             <HowItWorksTimeline />
           </div>
         </div>
-      </section>
+      </Reveal>
 
       {/* Trending destinations */}
-      <section className="container-page pt-16 lg:pt-24">
-        <SectionHeading
+      <Reveal as="section" className="container-page pt-16 lg:pt-24">
+        <DestinationsCarousel
+          journeys={cards}
           eyebrow="Hand-picked"
           title="Trending Journeys"
-          action={{ label: "View all", href: "/journeys" }}
+          viewAllHref="/journeys"
         />
-        <div className="mt-10">
-          <DestinationsCarousel journeys={cards} />
-        </div>
-      </section>
+      </Reveal>
 
-      <WhyChoose />
-      <StatsBand />
-      <VacationTiers />
-      <Testimonials />
+      <Reveal>
+        <WhyChoose />
+      </Reveal>
+      <Reveal>
+        <StatsBand />
+      </Reveal>
+      <Reveal>
+        <VacationTiers />
+      </Reveal>
+      <Reveal>
+        <Testimonials />
+      </Reveal>
 
       {/* Travel news & trends */}
-      <section className="container-page pt-16 lg:pt-24">
+      <Reveal as="section" className="container-page pt-16 lg:pt-24">
         <SectionHeading
           eyebrow="From the Journal"
           title="Travel News & Trends"
@@ -87,9 +94,11 @@ export default async function DiscoverPage() {
             />
           ))}
         </div>
-      </section>
+      </Reveal>
 
-      <QuoteCTASection />
+      <Reveal>
+        <QuoteCTASection />
+      </Reveal>
     </div>
   );
 }
