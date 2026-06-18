@@ -35,7 +35,7 @@ export function ExperienceCard({
       href={`/journeys/${slug}`}
       className="group flex h-full flex-col overflow-hidden rounded-3xl border border-ocean/10 bg-cream shadow-card card-lift"
     >
-      <div className={`relative ${heightClass} w-full shrink-0`}>
+      <div className={`relative ${heightClass} w-full shrink-0 bg-ocean/5`}>
         <Image
           src={heroImage}
           alt={title}

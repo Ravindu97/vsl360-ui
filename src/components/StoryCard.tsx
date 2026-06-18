@@ -29,7 +29,7 @@ export function StoryCard({
         href={`/stories/${slug}`}
         className="group flex h-full flex-col overflow-hidden rounded-3xl border border-ocean/10 bg-cream shadow-card card-lift"
       >
-        <div className="relative h-52 w-full sm:h-56">
+        <div className="relative h-52 w-full bg-ocean/5 sm:h-56">
           <Image
             src={heroImage}
             alt={title}
@@ -62,7 +62,7 @@ export function StoryCard({
       href={`/stories/${slug}`}
       className="group flex gap-3 overflow-hidden rounded-2xl border border-ocean/10 bg-cream p-3 shadow-card card-lift"
     >
-      <div className="relative h-24 w-24 shrink-0 overflow-hidden rounded-xl">
+      <div className="relative h-24 w-24 shrink-0 overflow-hidden rounded-xl bg-ocean/5">
         <Image
           src={heroImage}
           alt={title}

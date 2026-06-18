@@ -247,7 +247,7 @@ const stories = [
     author: "Amara Wijesinghe",
     location: "Ella, Sri Lanka",
     heroImage:
-      "https://images.unsplash.com/photo-1566296314736-6eaac1ca0cb9?auto=format&fit=crop&w=1400&q=80",
+      "https://images.unsplash.com/photo-1566296314736-6eaac1ca0cb9?auto=format&fit=crop&w=1200&q=80",
     pullQuote:
       "Waking up to the mist rolling over the tea hills, I understood why they call this the island of serendipity.",
     excerpt:
@@ -266,7 +266,7 @@ const stories = [
     author: "Daniel Pereira",
     location: "Yala National Park, Sri Lanka",
     heroImage:
-      "https://images.unsplash.com/photo-1456926631375-92c8ce872def?auto=format&fit=crop&w=1400&q=80",
+      "https://images.unsplash.com/photo-1456926631375-92c8ce872def?auto=format&fit=crop&w=1200&q=80",
     pullQuote:
       "For a breathless moment, the leopard and I simply looked at one another across the golden grass.",
     excerpt:
@@ -285,7 +285,7 @@ const stories = [
     author: "Priya Nair",
     location: "Mirissa, Sri Lanka",
     heroImage:
-      "https://images.unsplash.com/photo-1586500036706-41963de24d8b?auto=format&fit=crop&w=1400&q=80",
+      "https://images.unsplash.com/photo-1586500036706-41963de24d8b?auto=format&fit=crop&w=1200&q=80",
     pullQuote:
       "Every dish carried a story — of the spice gardens inland, of the fishermen who returned at dawn.",
     excerpt:
