@@ -12,6 +12,7 @@ const navItems = [
   { href: "/journeys", label: "Journeys" },
   { href: "/planner", label: "Planner" },
   { href: "/stories", label: "Stories" },
+  { href: "/faq", label: "FAQ" },
 ];
 
 export function SiteHeader() {
