@@ -1,0 +1,81 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Journey {
+  id          String   @id @default(cuid())
+  slug        String   @unique
+  title       String
+  location    String
+  durationDays Int
+  heroImage   String
+  badges      String[]
+  priceFrom   Int
+  summary     String
+  itinerary   Json
+  gallery     String[]
+  featured    Boolean  @default(false)
+  // Indian-traveler focus
+  familyFriendly Boolean  @default(true)
+  dietaryOptions String[] // e.g. ["Veg", "Jain", "Halal"]
+  allInclusive   Boolean  @default(true)
+  tiers          Json     // [{ name, price, perks: string[] }]
+  // Interactive route mapping
+  routeStops     Json     // [{ city, travelTime, attraction }]
+  createdAt   DateTime @default(now())
+}
+
+model Story {
+  id          String   @id @default(cuid())
+  slug        String   @unique
+  title       String
+  author      String
+  location    String
+  heroImage   String
+  pullQuote   String
+  excerpt     String
+  body        String
+  readMins    Int
+  publishedAt DateTime @default(now())
+}
+
+enum QuoteStatus {
+  NEW
+  CONTACTED
+  QUOTED
+}
+
+model QuoteRequest {
+  id          String      @id @default(cuid())
+  name        String
+  email       String
+  phone       String?
+  destination String
+  travelers   Int
+  startDate   String?
+  budget      String?
+  message     String?
+  status      QuoteStatus @default(NEW)
+  createdAt   DateTime    @default(now())
+}
+
+enum BookingStatus {
+  PENDING
+  CONFIRMED
+}
+
+model Booking {
+  id           String        @id @default(cuid())
+  journeySlug  String
+  travelerName String
+  email        String
+  lineItems    Json
+  total        Int
+  status       BookingStatus @default(PENDING)
+  createdAt    DateTime      @default(now())
+}

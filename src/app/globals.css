@@ -1,0 +1,98 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --ocean: #2a435d;
+  --tropical: #4e6e5d;
+  --sand: #e0d9d1;
+  --gold: #d18d36;
+  --cream: #fff8f3;
+}
+
+html,
+body {
+  background-color: var(--sand);
+  color: var(--ocean);
+  -webkit-font-smoothing: antialiased;
+}
+
+@layer base {
+  h1,
+  h2,
+  h3,
+  h4 {
+    @apply font-serif;
+  }
+}
+
+@layer components {
+  /* App is mobile-first; constrain the canvas and center it on larger screens. */
+  .app-shell {
+    @apply mx-auto w-full max-w-mobile bg-sand min-h-dvh relative;
+  }
+
+  .gold-button {
+    @apply inline-flex items-center justify-center gap-2 rounded-xl bg-gold px-6 py-3.5
+      font-sans text-sm font-semibold tracking-wide text-cream transition-colors
+      hover:bg-gold-dark active:scale-[0.99];
+  }
+
+  .ocean-button {
+    @apply inline-flex items-center justify-center gap-2 rounded-xl bg-ocean px-6 py-3.5
+      font-sans text-sm font-semibold tracking-wide text-cream transition-colors
+      hover:bg-ocean-dark active:scale-[0.99];
+  }
+
+  .ghost-button {
+    @apply inline-flex items-center justify-center gap-2 rounded-xl border border-ocean/20
+      bg-cream px-6 py-3.5 font-sans text-sm font-semibold tracking-wide text-ocean
+      transition-colors hover:border-ocean/40;
+  }
+
+  .badge-stamp {
+    @apply inline-flex items-center gap-1 rounded-full bg-cream/90 px-3 py-1
+      font-sans text-[11px] font-semibold uppercase tracking-wider text-ocean
+      backdrop-blur;
+  }
+
+  .field-label {
+    @apply mb-1.5 block font-sans text-xs font-semibold uppercase tracking-wider text-ocean/70;
+  }
+
+  .field-input {
+    @apply w-full rounded-xl border border-ocean/15 bg-cream px-4 py-3 font-sans text-sm
+      text-ocean placeholder:text-ocean/40 outline-none transition-colors
+      focus:border-gold;
+  }
+
+  .section-eyebrow {
+    @apply font-sans text-xs font-semibold uppercase tracking-[0.2em] text-gold;
+  }
+}
+
+/* Editorial drop-cap for story articles */
+.dropcap::first-letter {
+  @apply font-serif float-left mr-2 mt-1 text-6xl font-medium leading-[0.8] text-gold;
+}
+
+/* Hide scrollbars on horizontal carousels */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+/* Animated route drawing on the Sri Lanka map */
+@keyframes route-dash {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+.route-draw {
+  stroke-dasharray: 1000;
+  stroke-dashoffset: 1000;
+  animation: route-dash 2s ease-out forwards;
+}
