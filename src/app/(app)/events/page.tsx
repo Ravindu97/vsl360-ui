@@ -43,7 +43,7 @@ export default function EventsPage() {
       <section className="relative overflow-hidden">
         <div className="absolute inset-0">
           <Image
-            src="https://images.unsplash.com/photo-1519167758481-83f29da81278?auto=format&fit=crop&w=1600&q=80"
+            src="https://images.unsplash.com/photo-1511285560929-80b456fea0bc?auto=format&fit=crop&w=1200&q=80"
             alt="Elegant destination event in Sri Lanka"
             fill
             priority
