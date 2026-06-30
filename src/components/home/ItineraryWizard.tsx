@@ -9,9 +9,16 @@ import {
   ArrowRight,
   CheckCircle2,
   Loader2,
+  Mail,
   Minus,
   Plus,
 } from "lucide-react";
+import { CopyButton } from "@/components/CopyButton";
+import { WhatsAppButton } from "@/components/WhatsApp";
+import {
+  inquirySubmittedEmailUrl,
+  inquirySubmittedWhatsAppMessage,
+} from "@/lib/inquiryMessages";
 import {
   submitCustomItinerary,
   type CustomItineraryFormState,
@@ -145,32 +152,73 @@ export function ItineraryWizard() {
     if (state.reference) trackParams.set("ref", state.reference);
     if (data.email) trackParams.set("email", data.email);
     const trackHref = trackParams.toString() ? `/track?${trackParams}` : "/track";
+    const reference = state.reference ?? "";
 
     return (
-      <div className="rounded-3xl border border-tropical/20 bg-white p-8 text-center shadow-card sm:p-10">
+      <div className="rounded-3xl border border-tropical/20 bg-white p-6 text-center shadow-card sm:p-10">
         <CheckCircle2 className="mx-auto h-14 w-14 text-tropical" />
-        <h2 className="mt-4 font-display text-2xl font-bold text-ocean">Request Received</h2>
-        <p className="mt-2 font-sans text-sm leading-relaxed text-ocean/65">{state.message}</p>
-        {state.reference ? (
-          <div className="mt-5 rounded-2xl border border-ocean/10 bg-cream px-5 py-4">
+        <h2 className="mt-4 font-display text-2xl font-bold text-ocean sm:text-3xl">
+          Request Received
+        </h2>
+        <p className="mx-auto mt-2 max-w-md font-sans text-sm leading-relaxed text-ocean/65">
+          {state.message}
+        </p>
+
+        {reference ? (
+          <div className="mx-auto mt-6 max-w-md rounded-2xl border border-ocean/10 bg-cream px-5 py-5">
             <p className="font-sans text-xs font-semibold uppercase tracking-wide text-ocean/45">
               Your Reference
             </p>
-            <p className="mt-1 font-mono text-xl font-bold tracking-wide text-ocean">
-              {state.reference}
+            <p className="mt-2 font-mono text-3xl font-bold tracking-wider text-ocean sm:text-4xl">
+              {reference}
             </p>
-            <p className="mt-2 font-sans text-xs text-ocean/55">
-              Save this number to check your inquiry status anytime.
+            <div className="mt-4 flex justify-center">
+              <CopyButton value={reference} label="Copy reference" />
+            </div>
+            <p className="mt-3 font-sans text-xs text-ocean/55">
+              Save this number — you&apos;ll need it with your email to track your inquiry.
             </p>
           </div>
         ) : null}
-        <div className="mt-6 flex flex-col gap-3 sm:flex-row sm:justify-center">
-          {state.reference ? (
-            <Link href={trackHref} className="gold-button w-full sm:w-auto">
-              Track Your Inquiry
+
+        <div className="mx-auto mt-6 max-w-md rounded-2xl border border-tropical/20 bg-tropical/5 px-5 py-4 text-left">
+          <p className="font-sans text-sm font-semibold text-ocean">
+            We&apos;ll contact you within 12 hours
+          </p>
+          <ul className="mt-2 space-y-1.5 font-sans text-sm text-ocean/70">
+            <li className="flex gap-2">
+              <span className="text-tropical">•</span>
+              A travel planner reviews your preferences and builds route options.
+            </li>
+            <li className="flex gap-2">
+              <span className="text-tropical">•</span>
+              You&apos;ll receive a personalised proposal by email or WhatsApp.
+            </li>
+          </ul>
+        </div>
+
+        <div className="mt-8 flex flex-col gap-3 sm:mx-auto sm:max-w-md">
+          {reference ? (
+            <Link href={trackHref} className="gold-button w-full">
+              Track My Inquiry
             </Link>
           ) : null}
-          <Link href="/journeys" className="ocean-button w-full sm:w-auto">
+          {reference ? (
+            <div className="flex flex-col gap-2 sm:flex-row">
+              <WhatsAppButton
+                className="w-full flex-1"
+                label="WhatsApp us"
+                message={inquirySubmittedWhatsAppMessage(reference)}
+              />
+              <a
+                href={inquirySubmittedEmailUrl(reference, data.email)}
+                className="ocean-button w-full flex-1"
+              >
+                <Mail className="h-4 w-4" /> Email us
+              </a>
+            </div>
+          ) : null}
+          <Link href="/journeys" className="ghost-button w-full">
             Browse Packages
           </Link>
         </div>

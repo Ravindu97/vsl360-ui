@@ -311,7 +311,7 @@ export async function trackInquiry(
         return {
           status: "error",
           message:
-            "We couldn't find an inquiry matching that reference and email. Please check your details and try again.",
+            "We couldn't find a match. Please check your reference number and email address, then try again.",
         };
       }
       const detail = [result.reason, result.details].filter(Boolean).join(" — ");

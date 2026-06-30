@@ -1,6 +1,7 @@
 import type { InquiryTrackResult } from "@/lib/adminApi";
 import {
   formatInquiryDate,
+  formatSlaDueAt,
   inquiryStatusLabel,
   inquiryTypeLabel,
 } from "@/lib/inquiryTracking";
@@ -60,11 +61,28 @@ export function InquiryStatusCard({ inquiry }: { inquiry: InquiryTrackResult }) 
                 inquiry.sla.isOverdue ? "text-gold-dark" : "text-tropical"
               }`}
             />
-            <p className="font-sans text-sm leading-relaxed text-ocean/75">
-              {inquiry.sla.isOverdue
-                ? "Our team is actively working on your request and will be in touch shortly."
-                : `Our travel planners aim to respond within ${inquiry.sla.promisedHours} hours.`}
-            </p>
+            <div className="font-sans text-sm leading-relaxed text-ocean/75">
+              {inquiry.status === "NEW" ? (
+                inquiry.sla.isOverdue ? (
+                  <p>
+                    Our team is actively working on your request and will be in touch shortly.
+                  </p>
+                ) : (
+                  <>
+                    <p className="font-semibold text-ocean">
+                      A planner will reach out by {formatSlaDueAt(inquiry.sla.dueAt)}
+                    </p>
+                    <p className="mt-1">
+                      We aim to respond within {inquiry.sla.promisedHours} hours of your submission.
+                    </p>
+                  </>
+                )
+              ) : inquiry.sla.isOverdue ? (
+                <p>Our team is actively working on your request and will be in touch shortly.</p>
+              ) : (
+                <p>Our travel planners aim to respond within {inquiry.sla.promisedHours} hours.</p>
+              )}
+            </div>
           </div>
         ) : null}
       </div>
