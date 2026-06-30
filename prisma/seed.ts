@@ -1,4 +1,4 @@
-import { PrismaClient } from "@prisma/client";
+import { PrismaClient, TravelerPersona } from "@prisma/client";
 
 const prisma = new PrismaClient();
 
@@ -142,6 +142,17 @@ const routes: Record<string, RouteStop[]> = {
     { city: "Dambulla", travelTime: "30m drive", attraction: "Golden Cave Temples" },
     { city: "Kandy", travelTime: "2h 30m drive", attraction: "Temple of the Tooth & cultural show" },
   ],
+  "colombo-galle-express": [
+    { city: "Colombo", travelTime: "Arrival", attraction: "Gangaramaya Temple & city highlights" },
+    { city: "Galle", travelTime: "2h 30m coast road", attraction: "Dutch Fort & lighthouse sunset" },
+    { city: "Colombo", travelTime: "2h 30m return", attraction: "Departure transfer" },
+  ],
+  "yala-wildlife-weekend": [
+    { city: "Colombo", travelTime: "Arrival", attraction: "Airport meet & greet" },
+    { city: "Yala", travelTime: "4h drive", attraction: "Afternoon safari & lodge check-in" },
+    { city: "Yala", travelTime: "Dawn game drive", attraction: "Leopard tracking at sunrise" },
+    { city: "Colombo", travelTime: "4h drive", attraction: "Departure transfer" },
+  ],
 };
 
 const journeys = [
@@ -168,6 +179,7 @@ const journeys = [
     allInclusive: true,
     tiers: makeTiers(3850),
     routeStops: routes["leopards-of-yala"],
+    personas: [TravelerPersona.ADVENTURE, TravelerPersona.FAMILY],
   },
   {
     slug: "misty-hills-of-ella",
@@ -191,6 +203,7 @@ const journeys = [
     allInclusive: true,
     tiers: makeTiers(1980),
     routeStops: routes["misty-hills-of-ella"],
+    personas: [TravelerPersona.ADVENTURE, TravelerPersona.SOLO, TravelerPersona.FAMILY],
   },
   {
     slug: "southern-shores-escape",
@@ -214,6 +227,7 @@ const journeys = [
     allInclusive: true,
     tiers: makeTiers(2450),
     routeStops: routes["southern-shores-escape"],
+    personas: [TravelerPersona.HONEYMOON, TravelerPersona.FAMILY],
   },
   {
     slug: "ancient-cultural-triangle",
@@ -237,6 +251,53 @@ const journeys = [
     allInclusive: true,
     tiers: makeTiers(2890),
     routeStops: routes["ancient-cultural-triangle"],
+    personas: [TravelerPersona.FAMILY, TravelerPersona.ADVENTURE],
+  },
+  {
+    slug: "colombo-galle-express",
+    title: "Colombo & Galle Express",
+    location: "Colombo & Galle, Sri Lanka",
+    durationDays: 3,
+    heroImage:
+      "https://images.unsplash.com/photo-1573843981267-be1999ff37cd?auto=format&fit=crop&w=1200&q=80",
+    badges: ["Short Break", "Coastal"],
+    priceFrom: 890,
+    summary:
+      "A perfect long weekend — Colombo city highlights, then two nights in colonial Galle with sunset walks along the ramparts.",
+    itinerary: yalaItinerary.slice(0, 3),
+    gallery: [
+      "https://images.unsplash.com/photo-1586500036706-41963de24d8b?auto=format&fit=crop&w=900&q=80",
+    ],
+    featured: false,
+    familyFriendly: true,
+    dietaryOptions: ["Veg", "Jain", "Halal"],
+    allInclusive: true,
+    tiers: makeTiers(890),
+    routeStops: routes["colombo-galle-express"],
+    personas: [TravelerPersona.FAMILY, TravelerPersona.HONEYMOON],
+  },
+  {
+    slug: "yala-wildlife-weekend",
+    title: "Yala Wildlife Weekend",
+    location: "Yala National Park, Sri Lanka",
+    durationDays: 4,
+    heroImage:
+      "https://images.unsplash.com/photo-1456926631375-92c8ce872def?auto=format&fit=crop&w=1200&q=80",
+    badges: ["Safari", "Weekend Escape"],
+    priceFrom: 1240,
+    summary:
+      "Four days of leopard tracking, dawn game drives, and lodge evenings under the stars — ideal for wildlife enthusiasts.",
+    itinerary: yalaItinerary.slice(0, 4),
+    gallery: [
+      "https://images.unsplash.com/photo-1605640840605-14ac1855827b?auto=format&fit=crop&w=900&q=80",
+    ],
+    featured: false,
+    familyFriendly: false,
+    dietaryOptions: ["Veg", "Halal"],
+    allInclusive: true,
+    tiers: makeTiers(1240),
+    routeStops: routes["yala-wildlife-weekend"],
+    personas: [TravelerPersona.ADVENTURE, TravelerPersona.SOLO],
   },
 ];
 

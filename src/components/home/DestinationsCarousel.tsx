@@ -5,7 +5,7 @@ import Link from "next/link";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { ExperienceCard } from "@/components/ExperienceCard";
 import { TwoTone } from "@/components/TwoTone";
-import type { JourneyCardData } from "@/components/JourneyExplorer";
+import type { JourneyCardData } from "@/lib/types";
 
 const GAP = 24; // matches mr-6 spacing between cards
 const SPEED = 0.6; // px per frame (~36px/s) for a calm, elegant drift

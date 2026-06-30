@@ -28,6 +28,7 @@ export default async function DiscoverPage() {
     familyFriendly: j.familyFriendly,
     dietaryOptions: j.dietaryOptions,
     allInclusive: j.allInclusive,
+    personas: j.personas,
   }));
 
   return (

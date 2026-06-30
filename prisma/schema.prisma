@@ -7,6 +7,13 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+enum TravelerPersona {
+  FAMILY
+  HONEYMOON
+  ADVENTURE
+  SOLO
+}
+
 model Journey {
   id          String   @id @default(cuid())
   slug        String   @unique
@@ -27,6 +34,7 @@ model Journey {
   tiers          Json     // [{ name, price, perks: string[] }]
   // Interactive route mapping
   routeStops     Json     // [{ city, travelTime, attraction }]
+  personas       TravelerPersona[]
   createdAt   DateTime @default(now())
 }
 

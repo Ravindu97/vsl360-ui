@@ -24,3 +24,20 @@ export type RouteStop = {
   travelTime: string;
   attraction: string;
 };
+
+export type TravelerPersona = "FAMILY" | "HONEYMOON" | "ADVENTURE" | "SOLO";
+
+export type JourneyCardData = {
+  id: string;
+  slug: string;
+  title: string;
+  location: string;
+  durationDays: number;
+  heroImage: string;
+  badges: string[];
+  priceFrom: number;
+  familyFriendly: boolean;
+  dietaryOptions: string[];
+  allInclusive: boolean;
+  personas: TravelerPersona[];
+};
