@@ -10,6 +10,7 @@ import { SUPPORT_EMAIL, SUPPORT_PHONE } from "@/lib/contact";
 const primaryNavItems = [
   { href: "/discover", label: "Discover" },
   { href: "/journeys", label: "Journeys" },
+  { href: "/events", label: "Events" },
   { href: "/planner", label: "Planner" },
   { href: "/stories", label: "Stories" },
   { href: "/testimonials", label: "Testimonials" },

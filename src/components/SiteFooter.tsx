@@ -6,6 +6,7 @@ import { SUPPORT_EMAIL, SUPPORT_PHONE, whatsappLink } from "@/lib/contact";
 const explore = [
   { href: "/discover", label: "Discover" },
   { href: "/journeys", label: "Journeys" },
+  { href: "/events", label: "Weddings & Events" },
   { href: "/planner", label: "Planner" },
   { href: "/stories", label: "Stories" },
   { href: "/testimonials", label: "Testimonials" },

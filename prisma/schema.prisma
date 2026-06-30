@@ -79,3 +79,38 @@ model Booking {
   status       BookingStatus @default(PENDING)
   createdAt    DateTime      @default(now())
 }
+
+enum EventType {
+  DESTINATION_WEDDING
+  CORPORATE_MICE
+  CUSTOM_GATHERING
+}
+
+enum EventInquiryStatus {
+  NEW
+  CONTACTED
+  QUOTED
+}
+
+model EventInquiry {
+  id               String             @id @default(cuid())
+  name             String
+  email            String
+  phone            String?
+  company          String?
+  eventType        EventType
+  guestCount       Int
+  durationDays     Int?
+  durationNotes    String?
+  venuePreference  String
+  weddingStyle     String?
+  vendorNeeds      String[]
+  groupSize        Int?
+  conferenceLayout String?
+  avRequirements   String?
+  banquetDetails   String?
+  message          String?
+  preferredDate    String?
+  status           EventInquiryStatus @default(NEW)
+  createdAt        DateTime           @default(now())
+}

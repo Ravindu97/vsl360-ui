@@ -100,3 +100,83 @@ export async function confirmBooking(
     return { status: "error", message: "Could not confirm booking. Please try again." };
   }
 }
+
+export type EventFormState = {
+  status: "idle" | "success" | "error";
+  message?: string;
+};
+
+const eventTypes = ["DESTINATION_WEDDING", "CORPORATE_MICE", "CUSTOM_GATHERING"] as const;
+
+function parsePositiveInt(value: string) {
+  const parsed = Number.parseInt(value, 10);
+  return Number.isFinite(parsed) && parsed > 0 ? parsed : null;
+}
+
+export async function submitEventInquiry(
+  _prev: EventFormState,
+  formData: FormData,
+): Promise<EventFormState> {
+  const name = String(formData.get("name") ?? "").trim();
+  const email = String(formData.get("email") ?? "").trim();
+  const eventTypeRaw = String(formData.get("eventType") ?? "").trim();
+  const venuePreference = String(formData.get("venuePreference") ?? "").trim();
+  const guestCountRaw = String(formData.get("guestCount") ?? "").trim();
+
+  if (!name || !email || !venuePreference) {
+    return { status: "error", message: "Please complete the required fields." };
+  }
+
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+    return { status: "error", message: "Please enter a valid email address." };
+  }
+
+  if (!eventTypes.includes(eventTypeRaw as (typeof eventTypes)[number])) {
+    return { status: "error", message: "Please select an event type." };
+  }
+
+  const guestCount = parsePositiveInt(guestCountRaw);
+  if (!guestCount) {
+    return { status: "error", message: "Please enter a valid guest count." };
+  }
+
+  const vendorNeeds = formData
+    .getAll("vendorNeeds")
+    .map((value) => String(value).trim())
+    .filter(Boolean);
+
+  try {
+    await prisma.eventInquiry.create({
+      data: {
+        name,
+        email,
+        phone: String(formData.get("phone") ?? "").trim() || null,
+        company: String(formData.get("company") ?? "").trim() || null,
+        eventType: eventTypeRaw as (typeof eventTypes)[number],
+        guestCount,
+        durationDays: parsePositiveInt(String(formData.get("durationDays") ?? "")),
+        durationNotes: String(formData.get("durationNotes") ?? "").trim() || null,
+        venuePreference,
+        weddingStyle: String(formData.get("weddingStyle") ?? "").trim() || null,
+        vendorNeeds,
+        groupSize: parsePositiveInt(String(formData.get("groupSize") ?? "")),
+        conferenceLayout: String(formData.get("conferenceLayout") ?? "").trim() || null,
+        avRequirements: String(formData.get("avRequirements") ?? "").trim() || null,
+        banquetDetails: String(formData.get("banquetDetails") ?? "").trim() || null,
+        message: String(formData.get("message") ?? "").trim() || null,
+        preferredDate: String(formData.get("preferredDate") ?? "").trim() || null,
+      },
+    });
+
+    return {
+      status: "success",
+      message:
+        "Thank you. Our events team will review your brief and respond within one business day.",
+    };
+  } catch {
+    return {
+      status: "error",
+      message: "Something went wrong saving your inquiry. Please try again.",
+    };
+  }
+}
