@@ -1,6 +1,7 @@
 "use server";
 
 import { prisma } from "@/lib/prisma";
+import { submitCustomItineraryToAdmin } from "@/lib/adminApi";
 import type { LineItem } from "@/lib/types";
 
 export type QuoteFormState = {
@@ -234,21 +235,31 @@ export async function submitCustomItinerary(
   }
 
   try {
-    await prisma.customItineraryRequest.create({
-      data: {
-        name,
-        email,
-        phone: String(formData.get("phone") ?? "").trim() || null,
-        adults,
-        children,
-        travelStyles,
-        accommodation,
-        arrivalDate: dateMode === "dates" ? arrivalDate : null,
-        departureDate: dateMode === "dates" ? departureDate : null,
-        durationDays: dateMode === "duration" ? durationDays : null,
-        specialRequests: String(formData.get("specialRequests") ?? "").trim() || null,
-      },
+    const result = await submitCustomItineraryToAdmin({
+      name,
+      email,
+      phone: String(formData.get("phone") ?? "").trim() || null,
+      adults,
+      children,
+      travelStyles,
+      accommodation,
+      arrivalDate: dateMode === "dates" ? arrivalDate : null,
+      departureDate: dateMode === "dates" ? departureDate : null,
+      durationDays: dateMode === "duration" ? durationDays : null,
+      specialRequests: String(formData.get("specialRequests") ?? "").trim() || null,
     });
+
+    if (!result.ok) {
+      const showDetails =
+        process.env.NODE_ENV !== "production" || process.env.ADMIN_INGEST_DEBUG === "true";
+      const detail = [result.reason, result.details].filter(Boolean).join(" — ");
+      return {
+        status: "error",
+        message: showDetails
+          ? `Could not save your request: ${detail}`
+          : "Something went wrong saving your request. Please try again.",
+      };
+    }
 
     // Deferred: POST to process.env.WEBHOOK_URL and send auto-responder email
 

@@ -42,8 +42,10 @@ docker compose up --build
 
 This starts PostgreSQL, applies the schema, seeds curated content, and serves the app:
 
-- App: http://localhost:3000
-- Postgres: localhost:5432 (`vsl360` / `vsl360`)
+- App: http://localhost:3002
+- Postgres: localhost:5433 (`vsl360` / `vsl360`)
+
+Custom itinerary wizard submissions are sent to the **VSL360 admin API** (`ADMIN_API_URL`), not stored in this database. Set `ADMIN_INGEST_API_KEY` to match `INGEST_API_KEY` on the admin backend.
 
 ## Local Development
 
@@ -59,11 +61,13 @@ cp .env.example .env   # edit DATABASE_URL if needed
 # 3. Create tables and seed content
 npm run db:setup
 
-# 4. Start the dev server
-npm run dev
+# 4. Start the dev server (use 3002 when VSL360 admin API is on 3000)
+PORT=3002 npm run dev
 ```
 
-App runs at http://localhost:3000.
+App runs at http://localhost:3002 (or http://localhost:3000 if port 3002 is unused).
+
+Set `ADMIN_API_URL` and `ADMIN_INGEST_API_KEY` in `.env` for the custom itinerary wizard.
 
 ### Useful Scripts
 
