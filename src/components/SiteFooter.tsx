@@ -13,6 +13,7 @@ const explore = [
   { href: "/about", label: "About Us" },
   { href: "/faq", label: "FAQ" },
   { href: "/quote", label: "Get a Quote" },
+  { href: "/track", label: "Track My Inquiry" },
 ];
 
 const destinations = [

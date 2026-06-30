@@ -141,14 +141,39 @@ export function ItineraryWizard() {
   }
 
   if (state.status === "success") {
+    const trackParams = new URLSearchParams();
+    if (state.reference) trackParams.set("ref", state.reference);
+    if (data.email) trackParams.set("email", data.email);
+    const trackHref = trackParams.toString() ? `/track?${trackParams}` : "/track";
+
     return (
       <div className="rounded-3xl border border-tropical/20 bg-white p-8 text-center shadow-card sm:p-10">
         <CheckCircle2 className="mx-auto h-14 w-14 text-tropical" />
         <h2 className="mt-4 font-display text-2xl font-bold text-ocean">Request Received</h2>
         <p className="mt-2 font-sans text-sm leading-relaxed text-ocean/65">{state.message}</p>
-        <Link href="/journeys" className="ocean-button mt-6 w-full sm:w-auto">
-          Browse Packages
-        </Link>
+        {state.reference ? (
+          <div className="mt-5 rounded-2xl border border-ocean/10 bg-cream px-5 py-4">
+            <p className="font-sans text-xs font-semibold uppercase tracking-wide text-ocean/45">
+              Your Reference
+            </p>
+            <p className="mt-1 font-mono text-xl font-bold tracking-wide text-ocean">
+              {state.reference}
+            </p>
+            <p className="mt-2 font-sans text-xs text-ocean/55">
+              Save this number to check your inquiry status anytime.
+            </p>
+          </div>
+        ) : null}
+        <div className="mt-6 flex flex-col gap-3 sm:flex-row sm:justify-center">
+          {state.reference ? (
+            <Link href={trackHref} className="gold-button w-full sm:w-auto">
+              Track Your Inquiry
+            </Link>
+          ) : null}
+          <Link href="/journeys" className="ocean-button w-full sm:w-auto">
+            Browse Packages
+          </Link>
+        </div>
       </div>
     );
   }

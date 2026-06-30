@@ -1,7 +1,8 @@
 "use server";
 
 import { prisma } from "@/lib/prisma";
-import { submitCustomItineraryToAdmin } from "@/lib/adminApi";
+import { submitCustomItineraryToAdmin, trackInquiryFromAdmin } from "@/lib/adminApi";
+import type { InquiryTrackResult } from "@/lib/adminApi";
 import type { LineItem } from "@/lib/types";
 
 export type QuoteFormState = {
@@ -185,6 +186,7 @@ export async function submitEventInquiry(
 export type CustomItineraryFormState = {
   status: "idle" | "success" | "error";
   message?: string;
+  reference?: string;
 };
 
 export async function submitCustomItinerary(
@@ -265,6 +267,7 @@ export async function submitCustomItinerary(
 
     return {
       status: "success",
+      reference: result.publicRef,
       message:
         "Your custom itinerary request is received. A travel planner will contact you within 12 hours.",
     };
@@ -272,6 +275,59 @@ export async function submitCustomItinerary(
     return {
       status: "error",
       message: "Something went wrong saving your request. Please try again.",
+    };
+  }
+}
+
+export type TrackInquiryFormState = {
+  status: "idle" | "success" | "error";
+  message?: string;
+  inquiry?: InquiryTrackResult;
+  email?: string;
+};
+
+export async function trackInquiry(
+  _prev: TrackInquiryFormState,
+  formData: FormData,
+): Promise<TrackInquiryFormState> {
+  const reference = String(formData.get("reference") ?? "").trim();
+  const email = String(formData.get("email") ?? "").trim();
+
+  if (!reference || !email) {
+    return { status: "error", message: "Please enter your reference number and email." };
+  }
+
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+    return { status: "error", message: "Please enter a valid email address." };
+  }
+
+  try {
+    const result = await trackInquiryFromAdmin(reference, email);
+
+    if (!result.ok) {
+      const showDetails =
+        process.env.NODE_ENV !== "production" || process.env.ADMIN_INGEST_DEBUG === "true";
+      if (result.status === 404 || result.reason.includes("No inquiry found")) {
+        return {
+          status: "error",
+          message:
+            "We couldn't find an inquiry matching that reference and email. Please check your details and try again.",
+        };
+      }
+      const detail = [result.reason, result.details].filter(Boolean).join(" — ");
+      return {
+        status: "error",
+        message: showDetails
+          ? `Could not look up your inquiry: ${detail}`
+          : "Something went wrong looking up your inquiry. Please try again.",
+      };
+    }
+
+    return { status: "success", inquiry: result.data, email };
+  } catch {
+    return {
+      status: "error",
+      message: "Something went wrong looking up your inquiry. Please try again.",
     };
   }
 }
