@@ -1,14 +1,14 @@
 import { getJourneys, getStories } from "@/lib/data";
 import { StoryCard } from "@/components/StoryCard";
 import { SectionHeading } from "@/components/SectionHeading";
-import { HowItWorksTimeline } from "@/components/HowItWorksTimeline";
 import { Reveal } from "@/components/Reveal";
 import { HeroBlock } from "@/components/home/HeroBlock";
+import { OperationalFlow } from "@/components/home/OperationalFlow";
+import { DestinationsGrid } from "@/components/home/DestinationsGrid";
 import { DestinationsCarousel } from "@/components/home/DestinationsCarousel";
 import { WhyChoose } from "@/components/home/WhyChoose";
 import { StatsBand } from "@/components/home/StatsBand";
 import { Testimonials } from "@/components/home/Testimonials";
-import { VacationTiers } from "@/components/home/VacationTiers";
 import { QuoteCTASection } from "@/components/home/QuoteCTASection";
 
 export const dynamic = "force-dynamic";
@@ -33,24 +33,30 @@ export default async function DiscoverPage() {
 
   return (
     <div className="pb-4">
+      {/* A. Hero + Custom Itinerary Wizard */}
       <HeroBlock />
 
-      {/* How It Works */}
+      {/* B. Operational Process Flow */}
       <Reveal as="section" className="container-page pt-16 lg:pt-24">
         <div className="block-tropical p-6 sm:p-10 lg:p-14">
           <SectionHeading
-            eyebrow="The VSL 360 Way"
-            title="How It Works"
+            eyebrow="Operational Process"
+            title="How VSL 360 Works"
             centered
-            description="From the first spark of inspiration to a secured booking — guided every step by a local expert."
+            description="From your first inquiry to seamless in-country execution — a transparent, high-touch process at every stage."
           />
           <div className="mt-10">
-            <HowItWorksTimeline />
+            <OperationalFlow />
           </div>
         </div>
       </Reveal>
 
-      {/* Trending destinations */}
+      {/* C. Main Destinations Grid */}
+      <Reveal>
+        <DestinationsGrid />
+      </Reveal>
+
+      {/* Trending journeys carousel */}
       <Reveal as="section" className="container-page pt-16 lg:pt-24">
         <DestinationsCarousel
           journeys={cards}
@@ -60,20 +66,25 @@ export default async function DiscoverPage() {
         />
       </Reveal>
 
+      {/* D. Value Proposition */}
       <Reveal>
         <WhyChoose />
       </Reveal>
+
+      {/* Social proof */}
       <Reveal>
         <StatsBand />
-      </Reveal>
-      <Reveal>
-        <VacationTiers />
       </Reveal>
       <Reveal>
         <Testimonials />
       </Reveal>
 
-      {/* Travel news & trends */}
+      {/* Fallback quote funnel */}
+      <Reveal>
+        <QuoteCTASection />
+      </Reveal>
+
+      {/* Editorial */}
       <Reveal as="section" className="container-page pt-16 lg:pt-24">
         <SectionHeading
           eyebrow="From the Journal"
@@ -95,10 +106,6 @@ export default async function DiscoverPage() {
             />
           ))}
         </div>
-      </Reveal>
-
-      <Reveal>
-        <QuoteCTASection />
       </Reveal>
     </div>
   );
