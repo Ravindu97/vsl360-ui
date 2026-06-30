@@ -72,6 +72,23 @@ model QuoteRequest {
   createdAt   DateTime    @default(now())
 }
 
+model CustomItineraryRequest {
+  id              String      @id @default(cuid())
+  arrivalDate     String?
+  departureDate   String?
+  durationDays    Int?
+  adults          Int
+  children        Int         @default(0)
+  travelStyles    String[]
+  accommodation   String
+  name            String
+  email           String
+  phone           String?
+  specialRequests String?
+  status          QuoteStatus @default(NEW)
+  createdAt       DateTime    @default(now())
+}
+
 enum BookingStatus {
   PENDING
   CONFIRMED

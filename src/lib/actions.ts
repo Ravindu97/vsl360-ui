@@ -180,3 +180,87 @@ export async function submitEventInquiry(
     };
   }
 }
+
+export type CustomItineraryFormState = {
+  status: "idle" | "success" | "error";
+  message?: string;
+};
+
+export async function submitCustomItinerary(
+  _prev: CustomItineraryFormState,
+  formData: FormData,
+): Promise<CustomItineraryFormState> {
+  const name = String(formData.get("name") ?? "").trim();
+  const email = String(formData.get("email") ?? "").trim();
+  const accommodation = String(formData.get("accommodation") ?? "").trim();
+  const adultsRaw = String(formData.get("adults") ?? "").trim();
+  const dateMode = String(formData.get("dateMode") ?? "duration");
+
+  if (!name || !email || !accommodation) {
+    return { status: "error", message: "Please complete all required fields." };
+  }
+
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+    return { status: "error", message: "Please enter a valid email address." };
+  }
+
+  const adults = parsePositiveInt(adultsRaw);
+  if (!adults) {
+    return { status: "error", message: "Please enter at least one adult traveler." };
+  }
+
+  const childrenRaw = Number.parseInt(String(formData.get("children") ?? "0"), 10);
+  const children = Number.isFinite(childrenRaw) && childrenRaw >= 0 ? childrenRaw : 0;
+
+  const travelStyles = formData
+    .getAll("travelStyles")
+    .map((v) => String(v).trim())
+    .filter(Boolean);
+
+  if (travelStyles.length === 0) {
+    return { status: "error", message: "Please select at least one travel style." };
+  }
+
+  const arrivalDate = String(formData.get("arrivalDate") ?? "").trim() || null;
+  const departureDate = String(formData.get("departureDate") ?? "").trim() || null;
+  const durationDays = parsePositiveInt(String(formData.get("durationDays") ?? ""));
+
+  if (dateMode === "dates" && (!arrivalDate || !departureDate)) {
+    return { status: "error", message: "Please select arrival and departure dates." };
+  }
+
+  if (dateMode === "duration" && !durationDays) {
+    return { status: "error", message: "Please set your trip duration." };
+  }
+
+  try {
+    await prisma.customItineraryRequest.create({
+      data: {
+        name,
+        email,
+        phone: String(formData.get("phone") ?? "").trim() || null,
+        adults,
+        children,
+        travelStyles,
+        accommodation,
+        arrivalDate: dateMode === "dates" ? arrivalDate : null,
+        departureDate: dateMode === "dates" ? departureDate : null,
+        durationDays: dateMode === "duration" ? durationDays : null,
+        specialRequests: String(formData.get("specialRequests") ?? "").trim() || null,
+      },
+    });
+
+    // Deferred: POST to process.env.WEBHOOK_URL and send auto-responder email
+
+    return {
+      status: "success",
+      message:
+        "Your custom itinerary request is received. A travel planner will contact you within 12 hours.",
+    };
+  } catch {
+    return {
+      status: "error",
+      message: "Something went wrong saving your request. Please try again.",
+    };
+  }
+}
